@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 
 import os # get resume
 import time # sleep
@@ -10,7 +11,7 @@ _app_info = { # replace for personal use
     "last_name": "LAST",
     "email": "EMAIL",
     "phone": "123-456-7890",
-    "resume": "resume.pdf",
+    "resume": "resume.txt",
     "linkedin": "https://www.linkedin.com/in/timbim1681",
     "github": "https://www.github.com/timbim1681"
 }
@@ -36,12 +37,30 @@ def greenhouse(driver):
     driver.find_element(By.ID, value="email").send_keys(_app_info['email'])
     driver.find_element(By.ID, value='phone').send_keys(_app_info['phone'])
 
-    # Upload Resume (through click hopefully!)
-    resume_attach = driver.find_element(By.XPATH, value='//*[@id="resume_fieldset"]/div/div[3]/button[1]')
-    resume_attach.click()
-    time.sleep(3)
+    # Upload Resume (through text)
+    driver.find_element(By.CSS_SELECTOR, value="[data-source='paste']").click()
+    resume_zone = driver.find_element(By.ID, value='resume_text')
+    resume_zone.click()
+    with open(_app_info['resume']) as f:
+        lines = f.readlines()
+        for line in lines:
+            resume_zone.send_keys(line)
 
-    # TODO: instead of uploading resume through file, upload through text - have a textfile of my resume
+    # Add LinkedIn
+    try:
+        driver.find_element(By.XPATH, value='//*[@id="job_application_answers_attributes_0_text_value"]').send_keys(_app_info['linkedin'])
+    except NoSuchElementException:
+        pass
+
+    # Add Website
+    try:
+        driver.find_element(By.XPATH, value='//*[@id="job_application_answers_attributes_1_text_value"]').send_keys(_app_info['github'])
+    except NoSuchElementException:
+        pass
+
+    
+
+    time.sleep(3)
 
 
 if __name__ == "__main__":
