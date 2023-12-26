@@ -1,0 +1,49 @@
+Francisco 'Tim' Oh
+FranciscoTimOh@gmail.com, +1(518)801-3486, https://www.linkedin.com/in/timbim1681
+
+
+EDUCATION
+University of California, Irvine - Jun. 2025
+B.S. in Computer Science & Engineering, 3.5/4.0 GPA
+Engineering Student Council (ESC), Institute of Electrical and Electronics Engineers (IEEE), Theta Tau
+Skills: Python, C++, C, Java, HTML, CSS, JavaScript, SQL, Verilog, VHDL, Arduino/Embedded Systems, Korean
+Relevant Coursework: Data Structure Implementation and Analysis, Network Analysis, Differential Equations
+
+
+TECHNICAL EXPERIENCE
+Flapping Wing Micro Air Vehicle | Software Engineer, Apr. 2023 - Present
+Leverage the BetaFlight framework to configure PID values of flight controllers of “QuadFlapper” drones
+Compare wing performance collecting maximum thrust and minimum power values through LabVIEW
+Develop a computer vision machine learning model to detect wind vortices forming behind drones’ wings
+
+Guidance Glasses | Software Engineer, Apr. 2023 - Jun. 2023
+Trained a YOLOv5 machine learning model for smart glasses helping the visually impaired cross city crosswalks
+Created a custom Roboflow image recognition dataset differentiating “Walk” and “Don’t Walk” classifications
+Achieved a mean average precision (mAP) value of 97.6% for detecting “Walk” and “Don’t Walk” lights
+Programmed an algorithm to simultaneously integrate data from a camera, ultrasonic sensor, and microphone 
+Integrated a cross-platform solution with the algorithm on Python and the haptic motor circuit on Arduino to enable the glasses to provide real-time instructions through haptic feedback
+
+IEEE Open Project Space (OPS) | Embedded Systems Engineer, Sep. 2021 - Jun. 2022
+Engineered a gyro-controlled remote control car with a custom PCB designed on KiCad
+Deployed the iPoduino, an Arduino circuit that allows users to choose and play music through speakers
+Delivered a synchronous Red Light, Green Light game that utilized the Universal Asynchronous Receiver Transmitter (UART) protocol to communicate randomly generated stoplights between two Arduinos
+
+Shoe-thbrush | Team Lead, Sep. 2021 - Jun. 2022
+Devised “Shoe-thbrush,” an automatic shoe sole cleaner with an original eco-friendly cleaning solution to compete in the ESC Leaders in Freshmen Engineering (LIFE) Tank Engineering Competition
+Led a team of 5 by appointing roles, organizing meetings, and facilitating the exchange of ideas & information
+Manufactured a working prototype with a custom DC-circuit motor system, cardboard boxes, and elastic bands
+
+
+WORK EXPERIENCE
+The Coder School | Coding Coach, Oct. 2022 - Sep. 2023
+Coached 20 students ages 8 to 18 weekly on how to think like a programmer in Python and Scratch
+Ensured high-level engagement and understanding with customized curricula tailored to each student’s needs
+Drafted students’ progress reports and lesson notes punctually for clients and Coordinators after every lesson
+
+
+EXTRACURRICULARS
+Engineering Student Council | Director of Corporate Affairs, Oct. 2022 - Present
+Hosted EngiTech, a virtual career fair, to connect a yearly average of 100+ students & 13+ different companies
+Coordinated Networking Dinner Night, an in-person dinner event between 64 students and 9 companies
+Organized 8 workshops catering to professional development with an average audience of 20-30 people
+Arranged two company-specific events: a Northrop Grumman panel and a Skyworks Solutions company tour
