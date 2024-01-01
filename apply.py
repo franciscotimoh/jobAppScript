@@ -2,6 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+# from selenium.webdriver.support.ui import Select
+# from selenium.webdriver import ActionChains
+
+from bs4 import BeautifulSoup
 
 import os # get resume
 import time # sleep
@@ -31,6 +35,8 @@ driver.close()
 """
 
 def greenhouse(driver):
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+
     # Basic info
     driver.find_element(By.ID, value="first_name").send_keys(_app_info['first_name'])
     driver.find_element(By.ID, value="last_name").send_keys(_app_info['last_name'])
@@ -58,13 +64,59 @@ def greenhouse(driver):
     except NoSuchElementException:
         pass
 
+    # Give an LLM my info - take every (mandatory) question and ask ChatGPT "how will the person answer this question?" & give it the options
+    # use OpenAI ChatGPT or other free LLM
     
+    # Cannot handle other "mandatory" questions at the moment
+    # Tried: Select dropdown, ActionChains, etc. ElementNotInteractableException for both
+    # TODO: research this approach later
 
-    time.sleep(3)
+    # Add graduation year
+    try:
+        driver.find_element(By.XPATH, value="//select/option[text()='2025']").click()
+    except NoSuchElementException:
+        pass
+
+    # Add university
+    try:
+        driver.find_element(By.XPATH, value="//select/option[contains(.,'University of California, Irvine')]").click()
+    except NoSuchElementException:
+        try:
+            driver.find_element(By.XPATH, value="//select/option[contains(.,'University of California - Irvine')]").click()
+        except NoSuchElementException:
+            pass
+
+    # Add degree
+    try:
+        driver.find_element(By.XPATH, value="//select/option[contains(.,'Bachelor')]").click()
+    except NoSuchElementException:
+        pass
+
+    # Add major
+    try:
+        driver.find_element(By.XPATH, value="//select/option[contains(.,'Computer Science and Engineering')]").click()
+    except NoSuchElementException:
+        try:
+            driver.find_element(By.XPATH, value="//select/option[contains(.,'Computer Science & Engineering')]").click()
+        except NoSuchElementException:
+            try:
+                driver.find_element(By.XPATH, value="//select/option[contains(.,'Computer Science')]").click()
+            except NoSuchElementException:
+                pass
+
+    # Add work authorization
+    try:
+        driver.find_element(By.XPATH, value="//select/option[contains(.,'any employer')]").click()
+    except NoSuchElementException:
+        pass
+
+    time.sleep(5) # Buffer time to answer questions that are mandatory
+
+    driver.find_element_by_id("submit_app").click()
 
 
 if __name__ == "__main__":
-    jobURLs = ["https://boards.greenhouse.io/elementbiosciences/jobs/5033562004?gh_src=86bf34104us&source=LinkedIn"]
+    jobURLs = ["https://boards.greenhouse.io/andurilindustries/jobs/4159194007?gh_jid=4159194007&gh_src=83e1be777us"]
     # one listing for now
     driver = webdriver.Chrome()
     
