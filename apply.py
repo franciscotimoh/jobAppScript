@@ -17,22 +17,8 @@ _app_info = { # replace for personal use
     "phone": "123-456-7890",
     "resume": "resume.txt",
     "linkedin": "https://www.linkedin.com/in/timbim1681",
-    "github": "https://www.github.com/timbim1681"
+    "github": "https://www.github.com/timbim1681",
 }
-
-"""
-driver = webdriver.Chrome()
-driver.get("https://www.python.org")
-print(driver.title)
-
-search_bar = driver.find_element(By.NAME, value="q")
-search_bar.clear()
-search_bar.send_keys("getting started with python")
-search_bar.send_keys(Keys.RETURN)
-
-print(driver.current_url)
-driver.close()
-"""
 
 def greenhouse(driver):
     soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -115,8 +101,50 @@ def greenhouse(driver):
     driver.find_element_by_id("submit_app").click()
 
 
+def lever(driver):
+    driver.find_element(By.CLASS_NAME, value='template-btn-submit').click()
+
+    first_name = _app_info['first_name']
+    last_name = _app_info['last_name']
+    full_name = first_name + ' ' + last_name
+    driver.find_element(By.NAME, value='name').send_keys(full_name)
+    driver.find_element(By.NAME, value='email').send_keys(_app_info['email'])
+    driver.find_element(By.NAME, value='phone').send_keys(_app_info['phone'])
+
+    driver.find_element(By.NAME, value='urls[LinkedIn]').send_keys(_app_info['linkedin'])
+    
+    try:
+        driver.find_element(By.NAME, value='urls[Github]').send_keys(_app_info['github'])
+    except:
+        try:
+            driver.find_element(By.NAME, value='urls[GitHub]').send_keys(_app_info['github'])
+        except:
+            pass
+    
+    try:
+        driver.find_element(By.CLASS_NAME, value='application-university').click()
+        search = driver.find_element(By.XPATH, value="//*[@type='search']")
+        search.send_keys("University of California, Irvine")
+        search.send_keys(Keys.RETURN)
+    except NoSuchElementException:
+        try:
+            driver.find_element(By.CLASS_NAME, value='application-university').click()
+            search = driver.find_element(By.XPATH, value="//*[@type='search']")
+            search.send_keys("University of California - Irvine")
+            search.send_keys(Keys.RETURN)
+        except NoSuchElementException:
+            pass
+
+    driver.find_element(By.NAME, value='resume').send_keys(os.getcwd()+"/tim_oh_resume.pdf")
+    
+    # driver.find_element(By.CLASS_NAME, value='template-btn-submit').click()
+
+    time.sleep(10)
+
 if __name__ == "__main__":
-    jobURLs = ["https://boards.greenhouse.io/andurilindustries/jobs/4159194007?gh_jid=4159194007&gh_src=83e1be777us"]
+    # "https://boards.greenhouse.io/andurilindustries/jobs/4159194007?gh_jid=4159194007&gh_src=83e1be777us"
+    jobURLs = ["https://jobs.lever.co/leverdemo-8/e56e2e68-f9d1-4c8f-b13d-88b9ca17f88a?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic"]
+
     # one listing for now
     driver = webdriver.Chrome()
     
@@ -129,6 +157,14 @@ if __name__ == "__main__":
                 greenhouse(driver)
                 print(f'SUCCESS FOR {url}')
             except: 
+                continue
+
+        elif 'lever' in url:
+            driver.get(url)
+            try:
+                lever(driver)
+                print(f'SUCCESS FOR: {url}')
+            except:
                 continue
         
         else:
