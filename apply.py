@@ -7,8 +7,11 @@ from selenium.common.exceptions import NoSuchElementException
 
 from bs4 import BeautifulSoup
 
+import spreadsheet
+
 import os # get resume
 import time # sleep
+from datetime import date
 
 _app_info = { # replace for personal use
     "first_name": "FIRST",
@@ -21,7 +24,11 @@ _app_info = { # replace for personal use
 }
 
 def greenhouse(driver):
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    # Compile values to append to spreadsheet
+    company_name = driver.find_element(By.CLASS_NAME, value='company-name').text 
+    position_name = driver.find_element(By.CLASS_NAME, value='app-title').text 
+    date_applied = str(date.today())
+    values_for_ss = [company_name, position_name, date_applied]
 
     # Basic info
     driver.find_element(By.ID, value="first_name").send_keys(_app_info['first_name'])
@@ -98,7 +105,9 @@ def greenhouse(driver):
 
     time.sleep(5) # Buffer time to answer questions that are mandatory
 
-    driver.find_element_by_id("submit_app").click()
+    # driver.find_element(By.ID, value="submit_app").click()
+    
+    return values_for_ss
 
 
 def lever(driver):
@@ -142,19 +151,24 @@ def lever(driver):
     time.sleep(10)
 
 if __name__ == "__main__":
+    # 02/04/2024: around 30 seconds per application to submit
+
+    data_for_ss = []
     # "https://boards.greenhouse.io/andurilindustries/jobs/4159194007?gh_jid=4159194007&gh_src=83e1be777us"
-    jobURLs = ["https://jobs.lever.co/leverdemo-8/e56e2e68-f9d1-4c8f-b13d-88b9ca17f88a?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic"]
+    # "https://jobs.lever.co/leverdemo-8/e56e2e68-f9d1-4c8f-b13d-88b9ca17f88a?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic"
+    jobURLs = ["https://boards.greenhouse.io/andurilindustries/jobs/4159194007?gh_jid=4159194007&gh_src=83e1be777us"]
 
     # one listing for now
     driver = webdriver.Chrome()
     
     for url in jobURLs:
+        vals_for_sslist = []
         print('\n')
 
         if 'greenhouse' in url:
             driver.get(url)
             try:
-                greenhouse(driver)
+                vals_for_sslist.append(greenhouse(driver))
                 print(f'SUCCESS FOR {url}')
             except: 
                 continue
@@ -171,5 +185,7 @@ if __name__ == "__main__":
             continue
 
         time.sleep(1)
-    
+
+    print(vals_for_sslist)
+    spreadsheet.update_spreadsheet(vals_for_sslist)
     driver.close()
